@@ -53,11 +53,11 @@ public class ConsultationController {
     public List<TestRequest> getForDoctor()  {
 
         // An object of User class to store the current logged in doctor user
-        User doctorUser = this.userLoggedInService.getLoggedInUser();
+        User doctor = userLoggedInService.getLoggedInUser();
 
         // Retrieving and returning list of test requests assigned to the current doctor
-        log.info("Retrieving list of test requests assigned to the current doctor: " + doctorUser.getUserName());
-        return this.testRequestQueryService.findByDoctor(doctorUser);
+        log.info("Retrieving list of test requests assigned to the current doctor: " + doctor.getUserName());
+        return testRequestQueryService.findByDoctor(doctor);
     }
 
     @PreAuthorize("hasAnyRole('DOCTOR')")
@@ -66,10 +66,10 @@ public class ConsultationController {
 
         try {
             // An object of User class to store the current logged in doctor user
-            User doctorUser = this.userLoggedInService.getLoggedInUser();
+            User doctor = userLoggedInService.getLoggedInUser();
 
             // Assigning the test request to the current doctor for consultation
-            return this.testRequestUpdateService.assignForConsultation(id, doctorUser);
+            return testRequestUpdateService.assignForConsultation(id, doctor);
 
         } catch (AppException e) {
             throw asBadRequest(e.getMessage());
@@ -82,10 +82,10 @@ public class ConsultationController {
 
         try {
             // An object of User class to store the current logged in doctor user
-            User doctorUser = this.userLoggedInService.getLoggedInUser();
+            User doctor = userLoggedInService.getLoggedInUser();
 
             // Update the test request with consultation comments by the current doctor
-            return this.testRequestUpdateService.updateConsultation(id, testResult, doctorUser);
+            return testRequestUpdateService.updateConsultation(id, testResult, doctor);
 
         } catch (ConstraintViolationException e) {
             throw asConstraintViolation(e);
